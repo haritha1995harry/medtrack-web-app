@@ -11,6 +11,8 @@ mongoose.connection.on('connected', () => {
     console.log('Connected to MongoDB!');
 });
 
+const userRoutes = require('./routes/userRoutes'); 
+app.use('/', userRoutes);
 
 var port = process.env.port || 3000;
 app.listen(port, () => {
