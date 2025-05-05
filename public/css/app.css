@@ -3,7 +3,7 @@
     --white: #fff;
     --black: #000;
     --off-white: #F5F5F5;
-    --grey: #D9D9D9;
+    --grey: #5C5C5C;
 }
 
 
@@ -75,7 +75,7 @@ h3,
 .h3 {
     line-height: 140%;
     margin: 0;
-    font-size: 2em;
+    font-size: 32px;
     font-weight: 600;
 }
 
@@ -123,6 +123,56 @@ p {
     margin: 0;
 }
 
+.two-col-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+input, select {
+    margin: 0 !important;
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #00446E;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 1rem;
+    width: -webkit-fill-available;
+}
+
+.btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn {
+    padding: 12px 14px 12px 14px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 11px;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-primary {  
+    background: #00446E;
+    color: var(--white);
+}
+
+.btn-reset {
+    color: var(--grey);
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    background-color: transparent;
+}
+
 /* registration form styles */
 
 .registration-form-section {
@@ -134,8 +184,7 @@ p {
 }
 
 .registration-form-container {
-    width: 626px;
-    height: 616px;
+    width: 500px;
     flex-shrink: 0;
     border-radius: 32px;
     background: #FFF;
@@ -150,10 +199,10 @@ p {
 
 .logo-wrapper {
     width: auto;
-    height: 96px;
+    height: 72px;
 }
 
-.logo-wrapper img{
+.logo-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -166,4 +215,8 @@ p {
 
 .title-wrapper h3 {
     line-height: 1;
+}
+
+.form-wrapper {
+    margin-top: 2rem;
 }

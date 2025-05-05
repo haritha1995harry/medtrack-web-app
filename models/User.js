@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     dob: { type: Date, required: true },
     gender: { type: String, enum: ['male', 'female', 'other'], required: true },
     email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
-    contactNumber: { type: String, required: true },
+    contactNumber: { type: Number, required: true },
     password: { type: String, required: true },
     createdAt: { type: Date, default: Date.now }
 });

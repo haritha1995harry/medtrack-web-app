@@ -11,31 +11,73 @@
     <meta property="og:type" content="website">
     <meta property="og:description" content="MedTrack Web App">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Custom Style Sheet-->
     <link rel="stylesheet" href="../css/app.css">
 </head>
 
 <body>
-    <section class = "registration-form-section">
-        <div class = "registration-form-container">
-            <div class = "title-area">
-                <div class = "title-wrapper">
-                    <h3 class = "text-primary">Register</h3>
+    <section class="registration-form-section">
+        <div class="registration-form-container">
+            <div class="title-area">
+                <div class="title-wrapper">
+                    <h3 class="text-primary">Register</h3>
                 </div>
-                <div class = "logo-wrapper">
+                <div class="logo-wrapper">
                     <img src="../images/logo.png" alt="Logo">
                 </div>
+            </div>
+            <div class="form-wrapper">
+                <form id="registrationForm" action="/register" method="POST">
+                    <div class="input-field">
+                        <input name="firstName" placeholder="First Name" id="firstName" type="text" class="validate" required>
+                    </div>
+                    <div class="input-field">
+                        <input name="lastName" placeholder="Last Name" id="lastName" type="text" class="validate" required>
+                    </div>
+                    <div class="two-col-block">
+                        <div class="input-field">
+                            <input name = "dob" placeholder="Date of Birth" id="dob" type="text" onfocus="(this.type='date')" class="validate">
+                        </div>
+                        <div class="input-field">
+                            <select name="gender" id="gender" class="validate" required>
+                                <option value="" disabled selected hidden >Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="two-col-block">
+                        <div class="input-field">
+                            <input name="email" placeholder="Email" id="email" type="email" class="validate" required>
+                        </div>
+                        <div class="input-field">
+                            <input name="contactNumber" placeholder="Contact Number" id="contactNumber" type="tel" class="validate" required>
+                        </div>
+                    </div>
+                    <div class="two-col-block">
+                        <div class="input-field">
+                            <input name="password" placeholder="Password" id="password" type="password" class="validate" required>
+                        </div>
+                        <div class="input-field">
+                            <input name="confirmPassword" placeholder="Confirm Password" id="confirmPassword" type="password" class="validate" required>
+                        </div>
+                    </div>
+                    <div class="btn-wrapper">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                        <button type="reset" class="btn-reset">Reset</button>
+                    </div>
+                </form>
+                <div id="error-message" class="error-text" style="color: red; margin-bottom: 10px;"></div>
+
             </div>
         </div>
     </section>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!-- <script src="js/scripts.js"></script> -->
+    <script src="../js/scripts.js"></script>
 </body>
 
 </html>
