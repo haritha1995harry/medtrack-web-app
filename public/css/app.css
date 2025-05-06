@@ -165,12 +165,23 @@ input, select {
     color: var(--white);
 }
 
+.btn-primary:hover {  
+    background: #00253b;
+    color: var(--white);
+    transition: ease 1s;
+}
+
 .btn-reset {
     color: var(--grey);
     cursor: pointer;
     border: none;
     text-decoration: none;
     background-color: transparent;
+}
+
+.btn-reset:hover {  
+    color: var(--black);
+    transition: ease 1s;
 }
 
 /* registration form styles */

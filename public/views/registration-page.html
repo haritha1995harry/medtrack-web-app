@@ -78,6 +78,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+      
+        if (error) {
+          document.getElementById('error-message').innerText = decodeURIComponent(error);
+        }
+      </script>
 </body>
 
 </html>
