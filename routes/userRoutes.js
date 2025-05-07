@@ -8,6 +8,13 @@ router.get('/registration', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/views/registration-page.html'));
 });
 
+
+// Serve dashboard
+router.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/views/dashboard.html'));
+});
+
+
 // Handle form submission
 router.post('/register', registerUser);
 

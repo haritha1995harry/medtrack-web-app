@@ -129,6 +129,14 @@ p {
     gap: 2rem;
 }
 
+@media screen and (max-width:690px) {
+
+    .two-col-block {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
 input, select {
     margin: 0 !important;
     width: 100%;
@@ -230,4 +238,100 @@ input, select {
 
 .form-wrapper {
     margin-top: 2rem;
+}
+
+@media screen and (max-width:690px) {
+
+    .registration-form-container {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width:390px) {
+
+    .registration-form-container {
+        width: 70%;
+    }
+}
+
+/* nav bar styles */
+
+.nav-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    height: 100vh;
+    width: 100px;
+    gap: 20px;
+}
+
+.nav-item {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+}
+
+.nav-item:hover {
+    background-color: var(--white);
+    transition: ease 0.5s all;
+}
+
+
+.nav-item:hover svg path {
+    stroke: var(--primary);
+    transition: ease 0.5s all;
+}
+
+.nav-item.active {
+    background-color: var(--white);
+}
+
+.nav-item.active svg path {
+    stroke: var(--primary);
+}
+
+.nav-item svg {
+    width: 60%;
+    height: 60%;
+    object-fit: cover;
+}
+
+@media screen and (max-width:800px) {
+
+    .nav-bar {
+        flex-direction: row;
+        height: 100px;
+        width: 100vw;
+    }
+}
+
+/* Dashboard styles */
+
+.module-body {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.module-content {
+    width: calc(100% - 120px);
+    height: 100vh;
+}
+
+@media screen and (max-width:800px) {
+
+    .module-body {
+       flex-direction: column-reverse;
+    }
+
+    .module-content {
+        width: 100%;
+        height: calc(100vh - 120px);
+    }
 }
