@@ -60,10 +60,11 @@ const getTodaysMedicationsByStatus = async (req, res) => {
                 $gte: startOfDayUTC, 
                 $lt: endOfDayUTC
             }
-        }).populate('medicationId', 'sicknessName');
+        }).populate('medicationId', 'sicknessName description');
 
         const result = logs.map(log => ({
             medicationName: log.medicationId.sicknessName,
+            medicationDescription: log.medicationId.description,
             occurrenceTime: log.occurrenceTime,
             status: log.status
         }));
