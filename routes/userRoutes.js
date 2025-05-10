@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const router = express.Router();
-const { registerUser } = require('../controllers/userController');
+const { registerUser, loginUser } = require('../controllers/userController');
 
 // Serve registration page
 router.get('/registration', (req, res) => {
@@ -17,5 +17,8 @@ router.get('/dashboard', (req, res) => {
 
 // Handle form submission
 router.post('/register', registerUser);
+
+// Handle login
+router.post('/login', loginUser);
 
 module.exports = router;
