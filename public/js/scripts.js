@@ -1,7 +1,7 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const response = await fetch('/api/medications/upcoming/6818cced707111d14bb915ef');
+        const response = await fetch('/api/medications/upcoming/68200f0c449e4521536a9f61');
         const data = await response.json();
 
         if (data.success) {
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const response = await fetch('/api/medications/logs/today/6818cced707111d14bb915ef/taken');
+        const response = await fetch('/api/medications/logs/today/68200f0c449e4521536a9f61/taken');
         const dataRec = await response.json();
 
         if (dataRec.success) {
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const response = await fetch('/api/medications/logs/today/6818cced707111d14bb915ef/missed');
+        const response = await fetch('/api/medications/logs/today/68200f0c449e4521536a9f61/missed');
         const dataRec = await response.json();
 
         if (dataRec.success) {
