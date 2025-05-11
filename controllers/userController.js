@@ -40,28 +40,37 @@ const registerUser = async (req, res) => {
 // Login controller
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
-
+  
+    // Check for missing fields
     if (!email || !password) {
-        return res.redirect('/login?error=All fields are required');
+      return res.redirect('/login?error=All fields are required');
     }
-
+  
     try {
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.redirect('/login?error=Invalid email or password');
-        }
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.redirect('/login?error=Invalid email or password');
-        }
-
-        return res.redirect('/dashboard');
+      const user = await User.findOne({ email });
+  
+      // Check if user exists
+      if (!user) {
+        return res.redirect('/login?error=Invalid email or password');
+      }
+  
+      // Compare password
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.redirect('/login?error=Invalid email or password');
+      }
+  
+      // Save session (if using express-session)
+      req.session.userId = user._id;
+  
+      // Redirect to dashboard
+      return res.redirect('/dashboard');
     } catch (error) {
-        console.error('Login Error:', error);
-        return res.redirect('/login?error=Server error');
+      console.error('Login Error:', error);
+      return res.redirect('/login?error=Server error');
     }
-};
+  };
+  
 
 module.exports = {
     registerUser,
