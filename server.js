@@ -15,7 +15,7 @@ app.use('/', userRoutes);
 app.use('/api', medicationRoutes);
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/medtrackDB', {
+mongoose.connect('mongodb+srv://sathinchamikara:yWge0jeMz7EDDLyo@cluster0.ggggzyx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });

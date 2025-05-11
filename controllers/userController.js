@@ -1,47 +1,69 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
+// Register controller
 const registerUser = async (req, res) => {
-  const { firstName, lastName, dob, gender, email, contactNumber, password, confirmPassword } = req.body;
+    const { firstName, lastName, dob, gender, email, contactNumber, password, confirmPassword } = req.body;
 
-  if (!firstName || !lastName || !dob || !gender || !email || !contactNumber || !password || !confirmPassword) {
-    return res.redirect('/registration?error=All fields are required');
-  }
-
-  if (password !== confirmPassword) {
-    return res.redirect('/registration?error=Passwords do not match');
-  }
-
-  try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.redirect('/registration?error=Email already registered');
+    if (!firstName || !lastName || !dob || !gender || !email || !contactNumber || !password || !confirmPassword) {
+        return res.redirect('/registration?error=All fields are required');
     }
 
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    if (password !== confirmPassword) {
+        return res.redirect('/registration?error=Passwords do not match');
+    }
 
-    const newUser = new User({
-      firstName,
-      lastName,
-      dob,
-      gender,
-      email,
-      contactNumber,
-      password: hashedPassword
-    });
+    try {
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.redirect('/registration?error=Email already registered');
+        }
 
-    await newUser.save();
-    
-    // Redirect to login with success message
-    return res.redirect('/login?success=registered');
-  } catch (error) {
-    console.error('Registration Error:', error);
-    return res.redirect('/registration?error=Server error');
-  }
+        const newUser = new User({
+            firstName,
+            lastName,
+            dob,
+            gender,
+            email,
+            contactNumber,
+            password, // raw password - will be hashed in model
+        });
+
+        await newUser.save();
+        return res.redirect('/login?success=registered');
+    } catch (error) {
+        console.error('Registration Error:', error);
+        return res.redirect('/registration?error=Server error');
+    }
 };
 
+// Login controller
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.redirect('/login?error=All fields are required');
+    }
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.redirect('/login?error=Invalid email or password');
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.redirect('/login?error=Invalid email or password');
+        }
+
+        return res.redirect('/dashboard');
+    } catch (error) {
+        console.error('Login Error:', error);
+        return res.redirect('/login?error=Server error');
+    }
+};
 
 module.exports = {
-  registerUser,
+    registerUser,
+    loginUser,
 };
