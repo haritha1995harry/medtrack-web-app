@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MedTrack Login</title>
+  <meta name="description" content="MedTrack Web App">
+    <meta name="author" content="SitePoint">
+    <meta property="og:title" content="MedTrack">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="MedTrack Web App">
+    <!-- Compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Custom Style Sheet-->
+    <link rel="stylesheet" href="../css/app.css">
+</head>
+<body>
+  <section class="registration-form-section">
+        <div class="registration-form-container">
+      <div class="title-area">
+                <div class="title-wrapper">
+                    <h3 class="text-primary">Login</h3>
+                </div>
+                <div class="logo-wrapper">
+                    <img src="../images/logo.png" alt="Logo">
+                </div>
+            </div>
+            
+            <div class="form-wrapper">
+      <form action="/login" method="POST">
+        <div class="input-field">
+          <input name="email" type="email" placeholder="Email" required />
+        </div>
+        <div class="input-field">
+          <input name="password" type="password" placeholder="Password" required />
+        </div>
+        <div class="btn-wrapper">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+        <div id="error-message" class="error-text" style="color: red; margin-top: 10px;"></div>
+      </form>
+    </div>
+        </div>
+  </section>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    if (error) {
+      document.getElementById('error-message').innerText = decodeURIComponent(error);
+    }
+  </script>
+</body>
+</html>
