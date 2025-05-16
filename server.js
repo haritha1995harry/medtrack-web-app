@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use('/api/users', userRoutes);
+app.use('/', userRoutes);
 app.use('/api/medications', medicationRoutes);
 app.use('/api/caregivers', caregiverRoutes);
 
