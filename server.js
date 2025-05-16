@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes'); 
 const medicationRoutes = require("./routes/medicationRoutes");
+const caregiverRoutes = require("./routes/caregiverRoutes");
 
 const app = express();
 
@@ -11,8 +12,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use('/', userRoutes); 
-app.use('/api', medicationRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/medications', medicationRoutes);
+app.use('/api/caregivers', caregiverRoutes);
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://sathinchamikara:yWge0jeMz7EDDLyo@cluster0.ggggzyx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
