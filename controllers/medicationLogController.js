@@ -1,5 +1,9 @@
 const MedicationLog = require('../models/MedicationLog');
 const Medication = require('../models/Medication');
+const Caregiver = require('../models/Caregiver');
+const sendEmail = require('../utils/email');
+const User = require('../models/User');
+
 
 const addMedicationLog = async (req, res) => {
     const { medicationId, occurrenceTime, status } = req.body;
@@ -9,18 +13,46 @@ const addMedicationLog = async (req, res) => {
     }
 
     try {
+        // Find the medication
         const medication = await Medication.findById(medicationId);
         if (!medication) {
             return res.status(404).json({ success: false, message: 'Medication not found.' });
         }
 
+        // Save the medication log
         const logData = { medicationId, occurrenceTime, status };
-        
         await MedicationLog.findOneAndUpdate(
-            { medicationId, occurrenceTime }, 
+            { medicationId, occurrenceTime },
             logData,
             { upsert: true, new: true }
         );
+
+        // Send email notification if status is "missed"
+        if (status === 'missed') {
+            try {
+                // Find caregiver(s) linked to the user
+                const caregivers = await Caregiver.find({ userId: medication.userId });
+
+                // Fetch user details to include in the email
+                const user = await User.findById(medication.userId);
+                if (!user) {
+                    console.error('User not found');
+                    return;
+                }
+
+                if (caregivers.length > 0) {
+                    const emailList = caregivers.map(cg => cg.email).join(', ');
+                    const subject = `Medication Missed: ${medication.sicknessName}`;
+                    const text = `The medication "${medication.sicknessName}" for ${user.firstName} ${user.lastName} scheduled at ${occurrenceTime} was marked as missed.`;
+
+                    await sendEmail(emailList, subject, text);
+                    console.log(`Notification sent to: ${emailList}`);
+                }
+            } catch (error) {
+                console.error('Error sending caregiver notification:', error);
+            }
+        }
+
 
         return res.status(201).json({ success: true, message: 'Medication log saved successfully.' });
     } catch (error) {
@@ -32,10 +64,10 @@ const addMedicationLog = async (req, res) => {
 // Convert local date to UTC 
 const getLocalDateInUTC = () => {
     const today = new Date();
-    const startOfDayUTC = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 0, 0, 0 );
-    const endOfDayUTC = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 23, 59, 59 );
+    const startOfDayUTC = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 0, 0, 0);
+    const endOfDayUTC = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 23, 59, 59);
 
-    return { startOfDayUTC, endOfDayUTC};
+    return { startOfDayUTC, endOfDayUTC };
 };
 
 // Get today's medications 
@@ -56,8 +88,8 @@ const getTodaysMedicationsByStatus = async (req, res) => {
         const logs = await MedicationLog.find({
             medicationId: { $in: medicationIds },
             status: status,
-            createdAt: { 
-                $gte: startOfDayUTC, 
+            createdAt: {
+                $gte: startOfDayUTC,
                 $lt: endOfDayUTC
             }
         }).populate('medicationId', 'sicknessName description');

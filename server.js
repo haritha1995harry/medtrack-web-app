@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes'); 
 const medicationRoutes = require("./routes/medicationRoutes");
 const caregiverRoutes = require("./routes/caregiverRoutes");
+require('dotenv').config();
+
 
 const app = express();
 
