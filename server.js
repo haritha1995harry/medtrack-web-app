@@ -4,6 +4,7 @@ const userRoutes = require('./routes/userRoutes');
 const medicationRoutes = require("./routes/medicationRoutes");
 const caregiverRoutes = require("./routes/caregiverRoutes");
 require('dotenv').config();
+const { startMedicationScheduler } = require('./utils/medicationScheduler');
 
 
 const app = express();
@@ -17,6 +18,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/', userRoutes);
 app.use('/api/medications', medicationRoutes);
 app.use('/api/caregivers', caregiverRoutes);
+
+startMedicationScheduler();
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://sathinchamikara:yWge0jeMz7EDDLyo@cluster0.ggggzyx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
