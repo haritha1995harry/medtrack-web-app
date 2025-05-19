@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MedTrack | Caregivers</title>
+    <meta name="description" content="MedTrack Web App - Dashboard">
+    <meta name="author" content="SitePoint">
+    <meta property="og:title" content="MedTrack | Caregivers">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="MedTrack Web App">
+    <!-- Compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Custom Style Sheet-->
+    <link rel="stylesheet" href="../css/app.css">
+</head>
+
+<body>
+    <section class="module-body">
+        <div id="navbar"></div>
+        <div class="module-content">
+            <div class="module-title-wrapper">
+                <h1 class="h3">
+                    My Caregivers
+                </h1>
+            </div>
+            <div class="module-content-wrapper-2-col">
+                <div class="module-content-box">
+                    <div class="title">
+                        <h4>Caregivers List</h4>
+                    </div>
+                    <div class="medication-cards-wrapper" id="caregivers-list">
+
+                    </div>
+                </div>
+                <div class="module-content-box">
+                    <div class="title">
+                        <h4>Add Caregiver</h4>
+                    </div>
+                    <div class="medication-cards-wrapper">
+                        <div class="form-wrapper" style="margin-top: 0px;">
+                            <form id="userDetailsForm" action="/api/caregivers/register" method="POST">
+                                <input type="hidden" name="userId" id="userId" value="68200f0c449e4521536a9f61">
+                                <div class="input-field">
+                                    <input name="firstName" placeholder="First Name" id="firstName" type="text"
+                                        class="validate" required>
+                                </div>
+                                <div class="input-field">
+                                    <input name="lastName" placeholder="Last Name" id="lastName" type="text"
+                                        class="validate" required>
+                                </div>
+                                    <div class="input-field">
+                                        <input name="email" placeholder="Email" id="email" type="email" class="validate"
+                                            required>
+                                    </div>
+                                    <div class="input-field">
+                                        <input name="contactNumber" placeholder="Contact Number" id="contactNumber"
+                                            type="tel" class="validate" required>
+                                    </div>
+                                <div class="btn-wrapper">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="reset" class="btn-reset">Reset</button>
+                                </div>
+                            </form>
+                            <div id="error-message" class="error-text" style="color: red; margin-bottom: 10px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="../js/nav-bar.js"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../js/caregiver-scripts.js"></script>
+</body>
+
+</html>

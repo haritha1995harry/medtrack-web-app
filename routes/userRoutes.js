@@ -18,6 +18,13 @@ router.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/views/dashboard.html'));
 });
 
+
+// Serve caregivers page
+router.get('/caregivers', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/views/caregiver.html'));
+});
+
+
 // Handle registration
 router.post('/register', registerUser);
 

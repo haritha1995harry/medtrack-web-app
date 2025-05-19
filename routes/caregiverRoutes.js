@@ -2,6 +2,7 @@ const express = require('express');
 const { registerCaregiver, getCaregiversByUser, getCaregiverById } = require('../controllers/caregiverController');
 const router = express.Router();
 
+
 // Register caregiver
 router.post('/register', registerCaregiver);
 

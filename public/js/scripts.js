@@ -1,5 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
+     
     try {
         const response = await fetch('/api/medications/upcoming/68200f0c449e4521536a9f61');
         const data = await response.json();
@@ -103,6 +104,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Error loading missed medications:", error);
         console.log(dataRec);
     }
+
+  
+   
 });
 
 function addMedicationLogEventListeners() {
@@ -139,6 +143,22 @@ async function handleMedicationLog(button, status) {
         console.error("Error updating medication log:", error);
     }
 }
+
+window.onload = () => {
+    const navItems = document.querySelectorAll('.nav-item');
+    const currentPath = window.location.pathname.split('/').pop();
+
+    navItems.forEach(item => {
+        const id = item.id;
+
+        if (id === currentPath || (currentPath === '' && id === 'dashboard')) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
+};
+
 
 
 
