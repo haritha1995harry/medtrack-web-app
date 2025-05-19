@@ -491,3 +491,7 @@ input, select {
 .caregivers-table tbody tr:last-child td:last-child {
     border-bottom-right-radius: 12px;
 }
+
+.caregivers-table tr.selected {
+    background-color: #d1e7ff;
+}
