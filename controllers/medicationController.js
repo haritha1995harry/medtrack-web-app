@@ -92,7 +92,27 @@ const getUpcomingMedications = async (req, res) => {
     }
 };
 
+const getAllMedicationsByUser = async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const medications = await Medication.find({ userId });
+
+        return res.status(200).json({
+            success: true,
+            medications
+        });
+    } catch (error) {
+        console.error('Error fetching medications:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again later.'
+        });
+    }
+};
+
 module.exports = {
     addMedication,
     getUpcomingMedications,
+    getAllMedicationsByUser
 };

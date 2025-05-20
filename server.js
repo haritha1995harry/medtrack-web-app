@@ -22,7 +22,8 @@ app.use('/api/caregivers', caregiverRoutes);
 startMedicationScheduler();
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://sathinchamikara:yWge0jeMz7EDDLyo@cluster0.ggggzyx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+// mongoose.connect('mongodb+srv://sathinchamikara:yWge0jeMz7EDDLyo@cluster0.ggggzyx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect('mongodb://localhost:27017/medtrackDB',{
     useNewUrlParser: true,
     useUnifiedTopology: true
 });

@@ -61,5 +61,42 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error('Error loading caregivers:', error);
         document.querySelector('#caregivers-list').innerHTML = '<p>Error loading caregivers. Please try again later.</p>';
     }
+
+    const form = document.getElementById('caregiverForm');
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        const payload = {
+            userId: formData.get('userId'),
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
+            email: formData.get('email'),
+            contactNumber: formData.get('contactNumber')
+        };
+
+        try {
+            const response = await fetch('/api/caregivers/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Caregiver added!');
+                form.reset();
+                location.reload(); 
+            } else {
+                document.getElementById('error-message').textContent = result.message || 'Something went wrong.';
+            }
+        } catch (err) {
+            console.error('Error adding caregiver:', err);
+            document.getElementById('error-message').textContent = 'Server error. Please try again later.';
+        }
+    });
 });
 

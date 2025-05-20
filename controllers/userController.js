@@ -26,7 +26,7 @@ const registerUser = async (req, res) => {
             gender,
             email,
             contactNumber,
-            password, // raw password - will be hashed in model
+            password, 
         });
 
         await newUser.save();
@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
   
       // Check if user exists
       if (!user) {
-        return res.redirect('/login?error=Invalid email or password');
+        return res.redirect('/login?error=Invalid email');
       }
   
       // Compare password
@@ -60,8 +60,8 @@ const loginUser = async (req, res) => {
         return res.redirect('/login?error=Invalid email or password');
       }
   
-      // Save session (if using express-session)
-      req.session.userId = user._id;
+      // req.session.userId = user._id;
+      localStorage.setItem(userId, user._id);
   
       // Redirect to dashboard
       return res.redirect('/dashboard');

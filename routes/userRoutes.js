@@ -25,6 +25,11 @@ router.get('/caregivers', (req, res) => {
 });
 
 
+// Serve medications page
+router.get('/medications', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/views/medication.html'));
+});
+
 // Handle registration
 router.post('/register', registerUser);
 

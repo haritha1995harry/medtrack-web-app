@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MedTrack | Caregivers</title>
+    <meta name="description" content="MedTrack Web App - Medications">
+    <meta name="author" content="SitePoint">
+    <meta property="og:title" content="MedTrack | Medications">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="MedTrack Web App">
+    <!-- Compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Custom Style Sheet-->
+    <link rel="stylesheet" href="../css/app.css">
+</head>
+
+<body>
+    <section class="module-body">
+        <div id="navbar"></div>
+        <div class="module-content">
+            <div class="module-title-wrapper">
+                <h1 class="h3">
+                    My Medications
+                </h1>
+            </div>
+            <div class="module-content-wrapper-2-col">
+                <div class="module-content-box">
+                    <div class="title">
+                        <h4>Medications List</h4>
+                    </div>
+                    <div class="medication-cards-wrapper" id="medications-list">
+
+                    </div>
+                </div>
+                <div class="module-content-box">
+                    <div class="title">
+                        <h4>Add Medication</h4>
+                    </div>
+                    <div class="medication-cards-wrapper">
+                        <div class="form-wrapper" style="margin-top: 0px;">
+                            <form id="userDetailsForm" action="/api/caregivers/register" method="POST">
+                                <input type="hidden" name="userId" id="userId" value="68200f0c449e4521536a9f61">
+                                <div class="input-field">
+                                    <input name="sicknessName" placeholder="Sickness" id="sicknessName" type="text"
+                                        class="validate" required>
+                                </div>
+                                <div class="input-field">
+                                    <input name="description" placeholder="Description" id="description" type="text"
+                                        class="validate" required>
+                                </div>
+                                <div class="input-field">
+                                    <input name="startDate" placeholder="Start Date" id="startDate" type="date"
+                                        class="validate" required>
+                                </div>
+                                <div class="input-field">
+                                    <input name="endDate" placeholder="End Date" id="endDate" type="date"
+                                        class="validate" required>
+                                </div>
+                                <div class="input-field">
+                                    <label>Occurrence Days:</label>
+                                    <div class = "checkbox-wrapper">
+                                        <div>Monday</div> 
+                                        <div><input type="checkbox" name="occurrenceDays" value="Monday"></div>
+                                    </div>
+                                    <div class = "checkbox-wrapper">
+                                        <div>Tuesday</div> 
+                                        <div><input type="checkbox" name="occurrenceDays" value="Tuesday"> </div>
+                                    </div>
+                                    <div class = "checkbox-wrapper">
+                                        <div>Wednesday</div> 
+                                        <div><input type="checkbox" name="occurrenceDays" value="Wednesday"></div>
+                                    </div>
+                                    <div class = "checkbox-wrapper">
+                                        <div>Thursday</div> 
+                                        <div><input type="checkbox" name="occurrenceDays" value="Thursday"></div>
+                                    </div>
+                                    <div class = "checkbox-wrapper">
+                                        <div>Friday</div> 
+                                        <div><input type="checkbox" name="occurrenceDays" value="Friday"> </div>
+                                    </div>
+                                    <div class = "checkbox-wrapper">
+                                        <div>Saturday</div> 
+                                        <div><input type="checkbox" name="occurrenceDays" value="Saturday"></div>
+                                    </div>
+                                    <div class = "checkbox-wrapper">
+                                        <div>Sunday</div> 
+                                        <div><input type="checkbox" name="occurrenceDays" value="Sunday"> </div>
+                                    </div>
+                                </div>
+                                <div class="input-field" id="timeContainer">
+                                    <label>Occurrence Times:</label>
+                                    <div id="timeInputs">
+                                        <input type="time" class="occurrenceTime" required>
+                                    </div>
+                                    <button type="button" id="addTimeBtn" class="btn btn-secondary">+ Add Time</button>
+                                </div>
+                                <div class="btn-wrapper">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="reset" class="btn-reset">Reset</button>
+                                </div>
+
+                            </form>
+                            <div id="error-message" class="error-text" style="color: red; margin-bottom: 10px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="../js/nav-bar.js"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../js/medication-scripts.js"></script>
+</body>
+
+</html>

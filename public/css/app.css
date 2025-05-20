@@ -200,6 +200,23 @@ input, select {
     transition: ease 1s;
 }
 
+label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* line-height: 100%; */
+    margin-top: 16px;
+}
+
+.checkbox-wrapper {
+    display: flex; 
+    justify-content: space-between;
+    width: 90%;
+    margin: auto;
+    font-size: 14px;
+}
+
 /* registration form styles */
 
 .registration-form-section {
