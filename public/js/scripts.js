@@ -2,7 +2,16 @@
 document.addEventListener("DOMContentLoaded", async () => {
      
     try {
-        const response = await fetch('/api/medications/upcoming/68200f0c449e4521536a9f61');
+        const sessionRes = await fetch('/session-user');
+        const sessionData = await sessionRes.json();
+        if (!sessionData.success) {
+            window.location.href = '/login';
+            return;
+        }
+
+        const userId = sessionData.userId;
+
+        const response = await fetch('/api/medications/upcoming/' + userId);
         const data = await response.json();
 
         if (data.success) {
@@ -41,7 +50,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const response = await fetch('/api/medications/logs/today/68200f0c449e4521536a9f61/taken');
+
+        const sessionRes = await fetch('/session-user');
+        const sessionData = await sessionRes.json();
+        if (!sessionData.success) {
+            window.location.href = '/login';
+            return;
+        }
+
+        const userId = sessionData.userId;
+
+        const response = await fetch('/api/medications/logs/today/' + userId + '/taken');
         const dataRec = await response.json();
 
         if (dataRec.success) {
@@ -73,7 +92,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const response = await fetch('/api/medications/logs/today/68200f0c449e4521536a9f61/missed');
+        const sessionRes = await fetch('/session-user');
+        const sessionData = await sessionRes.json();
+        if (!sessionData.success) {
+            window.location.href = '/login';
+            return;
+        }
+
+        const userId = sessionData.userId;
+
+        const response = await fetch('/api/medications/logs/today/' + userId + '/missed');
         const dataRec = await response.json();
 
         if (dataRec.success) {

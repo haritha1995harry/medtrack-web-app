@@ -3,7 +3,14 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const userId = "68200f0c449e4521536a9f61";
+        const sessionRes = await fetch('/session-user');
+        const sessionData = await sessionRes.json();
+        if (!sessionData.success) {
+            window.location.href = '/login';
+            return;
+        }
+
+        const userId = sessionData.userId;
         const response = await fetch(`/api/medications/user/${userId}`);
         const data = await response.json();
 
@@ -95,8 +102,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (input.value) occurrenceTimes.push(input.value);
         });
 
+        const sessionRes = await fetch('/session-user');
+        const sessionData = await sessionRes.json();
+        if (!sessionData.success) {
+            window.location.href = '/login';
+            return;
+        }
+
+        const userId = sessionData.userId;
+
         const payload = {
-            userId: formData.get('userId'),
+            userId: userId,
             sicknessName: formData.get('sicknessName'),
             description: formData.get('description'),
             startDate: formData.get('startDate'),

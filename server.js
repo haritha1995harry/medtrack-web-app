@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require('mongoose');
+const session = require('express-session');
 const userRoutes = require('./routes/userRoutes'); 
 const medicationRoutes = require("./routes/medicationRoutes");
 const caregiverRoutes = require("./routes/caregiverRoutes");
@@ -13,6 +14,13 @@ const app = express();
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+//   cookie: { secure: false }
+}));
 
 // Routes
 app.use('/', userRoutes);
@@ -35,6 +43,10 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', (err) => {
     console.error('MongoDB connection error:', err);
 });
+
+
+
+
 
 // Start server
 const PORT = process.env.PORT || 3000;

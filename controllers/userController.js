@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const session = require('express-session'); 
 
 // Register controller
 const registerUser = async (req, res) => {
@@ -39,37 +40,33 @@ const registerUser = async (req, res) => {
 
 // Login controller
 const loginUser = async (req, res) => {
-    const { email, password } = req.body;
-  
-    // Check for missing fields
-    if (!email || !password) {
-      return res.redirect('/login?error=All fields are required');
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.redirect('/login?error=All fields are required');
+  }
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.redirect('/login?error=Invalid email');
     }
-  
-    try {
-      const user = await User.findOne({ email });
-  
-      // Check if user exists
-      if (!user) {
-        return res.redirect('/login?error=Invalid email');
-      }
-  
-      // Compare password
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return res.redirect('/login?error=Invalid email or password');
-      }
-  
-      // req.session.userId = user._id;
-      localStorage.setItem(userId, user._id);
-  
-      // Redirect to dashboard
-      return res.redirect('/dashboard');
-    } catch (error) {
-      console.error('Login Error:', error);
-      return res.redirect('/login?error=Server error');
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.redirect('/login?error=Invalid email or password');
     }
-  };
+
+    req.session.userId = user._id;
+
+    return res.redirect('/dashboard');
+  } catch (error) {
+    console.error('Login Error:', error);
+    return res.redirect('/login?error=Server error');
+  }
+};
+
   
 
 module.exports = {

@@ -3,6 +3,15 @@ const path = require('path');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/userController');
 
+router.get('/session-user', (req, res) => {
+    if (req.session.userId) {
+        res.json({ success: true, userId: req.session.userId });
+    } else {
+        res.status(401).json({ success: false, message: 'Not logged in' });
+    }
+});
+
+
 // Serve registration page
 router.get('/registration', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/views/registration-page.html'));

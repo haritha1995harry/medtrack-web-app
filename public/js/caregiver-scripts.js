@@ -3,7 +3,16 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const userId = "68200f0c449e4521536a9f61";
+
+        const sessionRes = await fetch('/session-user');
+        const sessionData = await sessionRes.json();
+        if (!sessionData.success) {
+            window.location.href = '/login';
+            return;
+        }
+
+        const userId = sessionData.userId;
+
         const response = await fetch(`/api/caregivers/user/${userId}`);
         const data = await response.json();
 
@@ -69,8 +78,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const formData = new FormData(form);
 
+        const sessionRes = await fetch('/session-user');
+        const sessionData = await sessionRes.json();
+        if (!sessionData.success) {
+            window.location.href = '/login';
+            return;
+        }
+
+        const userId = sessionData.userId;
+
         const payload = {
-            userId: formData.get('userId'),
+            userId: userId,
             firstName: formData.get('firstName'),
             lastName: formData.get('lastName'),
             email: formData.get('email'),
