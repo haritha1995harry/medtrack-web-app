@@ -36,4 +36,7 @@ router.post('/register', registerUser);
 // Handle login
 router.post('/login', loginUser);
 
+// Get User Account Details
+router.get('/getuser/:id', getUser);
+
 module.exports = router;

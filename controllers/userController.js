@@ -70,9 +70,31 @@ const loginUser = async (req, res) => {
       return res.redirect('/login?error=Server error');
     }
   };
+
+  const getUser = async (req, res) => {
+  const { id } = req.params;               
+
+  if (!id) {
+    return res.status(400).json({ error: 'User ID is required' });
+  }
+
+  try {
+    // Find user by ID, omit the password
+    const user = await User.findById(id).select('-password');
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    // Return user details as JSON
+    return res.json({ user });
+  } catch (err) {
+    console.error('Get User Error:', err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+};
   
 
 module.exports = {
     registerUser,
     loginUser,
+    getUser,
 };
