@@ -17,7 +17,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (data.success) {
             const medications = data.medications;
             const wrapper = document.querySelector('#upcoming');
-            wrapper.innerHTML = ""; 
+
+            if(wrapper) {
+                wrapper.innerHTML = ""; 
+            }
 
             medications.forEach(med => {
                 med.occurrenceTimes.forEach(time => {
@@ -66,7 +69,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (dataRec.success) {
             const medications = dataRec.medications;
             const wrapper = document.querySelector('#recent');
-            wrapper.innerHTML = ""; 
+
+            if(wrapper) {
+                wrapper.innerHTML = ""; 
+            }
 
             medications.forEach(med => {
                     const card = document.createElement('div');
@@ -88,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     } catch (error) {
         console.error("Error loading upcoming medications:", error);
-        console.log(dataRec);
+        // console.log(dataRec);
     }
 
     try {
@@ -107,7 +113,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (dataRec.success) {
             const medications = dataRec.medications;
             const wrapper = document.querySelector('#missed');
-            wrapper.innerHTML = ""; 
+            if(wrapper) {
+                wrapper.innerHTML = ""; 
+            }
 
             medications.forEach(med => {
                     const card = document.createElement('div');
@@ -130,7 +138,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     } catch (error) {
         console.error("Error loading missed medications:", error);
-        console.log(dataRec);
+        // console.log(dataRec);
     }
 
   
@@ -211,6 +219,9 @@ function validatePasswords() {
     }
 }
 
-passwordInput.addEventListener('input', validatePasswords);
-confirmPasswordInput.addEventListener('input', validatePasswords);
+if (passwordInput && confirmPasswordInput) {
+    passwordInput.addEventListener('input', validatePasswords);
+    confirmPasswordInput.addEventListener('input', validatePasswords);
+}
+
 
