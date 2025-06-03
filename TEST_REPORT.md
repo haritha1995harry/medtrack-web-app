@@ -7,6 +7,7 @@ This report documents the Cypress end-to-end tests written to verify core user w
 | Feature Tested     | Description                               | Status  |
 |--------------------|-------------------------------------------|---------|
 | Login              | User login with valid credentials         | ✅ Passed |
+| Login              | User login with valid credentials         | ✅ Passed |
 | Add Caregiver      | Adding a new caregiver with full details  | ✅ Passed |
 | Add Medication     | Adding a new medication with schedule     | ✅ Passed |
 

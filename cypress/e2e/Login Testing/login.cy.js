@@ -1,4 +1,4 @@
-describe('MedTrack End-to-End Test', () => {
+describe('Login Test', () => {
   it('Should visit login page and perform login', () => {
     cy.visit('http://localhost:3000/login');
 

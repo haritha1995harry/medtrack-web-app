@@ -1,5 +1,5 @@
-describe('MedTrack End-to-End Test', () => {
-  it('Should visit login page and perform login', () => {
+describe('Login Negative Test - Invalid email', () => {
+  it('Should give error invalid email', () => {
     cy.visit('http://localhost:3000/login');
 
     cy.get('input[name="email"]').type('mr.binara@gmaill.com');

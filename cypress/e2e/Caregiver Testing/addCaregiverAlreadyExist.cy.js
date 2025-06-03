@@ -1,5 +1,5 @@
-describe('Add Caregiver Test', () => {
-  it('should add a new caregiver successfully', () => {
+describe('Add Caregiver Negative Test - Add already exist', () => {
+  it('should Provide error caregiver already exist', () => {
 
     cy.visit('http://localhost:3000/login');
 
@@ -13,13 +13,13 @@ describe('Add Caregiver Test', () => {
 
     cy.get('input[name="firstName"]').type('John');
     cy.get('input[name="lastName"]').type('Doe');
-    cy.get('input[name="email"]').type('johndoe@example.com');
+    cy.get('input[name="email"]').type('johna@example.com');
     cy.get('input[name="contactNumber"]').type('1234567890');
 
     cy.get('button[type="submit"]').click();
 
-    cy.contains('johndoe@example.com').should('be.visible');
+    cy.contains('johna@example.com').should('be.visible');
 
-    cy.contains('already registerd').should('be.visible');
+    cy.contains('already registered').should('be.visible');
   });
 });
