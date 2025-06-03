@@ -1,25 +1,16 @@
 const Caregiver = require('../models/Caregiver');
-const User = require('../models/User');
 
+// Register a new caregiver
 const registerCaregiver = async (req, res) => {
-    const { userId, firstName, lastName, email, contactNumber } = req.body;
-
-    if (!userId || !firstName || !lastName || !email || !contactNumber) {
-        return res.status(400).json({ success: false, message: 'All fields are required.' });
-    }
-
     try {
-        const userExists = await User.findById(userId);
-        if (!userExists) {
-            return res.status(404).json({ success: false, message: 'User not found.' });
-        }
+        const { userId, firstName, lastName, email, contactNumber } = req.body;
 
-        const existingCaregiver = await Caregiver.findOne({ email, userId });
+        const existingCaregiver = await Caregiver.findOne({ email });
         if (existingCaregiver) {
-            return res.status(400).json({ success: false, message: 'Caregiver already registered for this user.' });
+            return res.status(400).json({ message: 'Email already exists' });
         }
 
-        const newCaregiver = new Caregiver({
+        const caregiver = new Caregiver({
             userId,
             firstName,
             lastName,
@@ -27,42 +18,97 @@ const registerCaregiver = async (req, res) => {
             contactNumber
         });
 
-        await newCaregiver.save();
-        return res.status(201).json({ success: true, message: 'Caregiver registered successfully.' });
-
+        await caregiver.save();
+        res.status(201).json({ message: 'Caregiver registered successfully', caregiver });
     } catch (error) {
-        console.error('Error registering caregiver:', error);
-        return res.status(500).json({ success: false, message: 'Server error. Please try again.' });
+        res.status(500).json({ message: 'Server error', error });
     }
 };
 
+// Get caregivers by user ID
 const getCaregiversByUser = async (req, res) => {
-    const { userId } = req.params;
-
     try {
+        const { userId } = req.params;
         const caregivers = await Caregiver.find({ userId });
-        return res.status(200).json({ success: true, caregivers });
+        res.status(200).json(caregivers);
     } catch (error) {
-        console.error('Error fetching caregivers:', error);
-        return res.status(500).json({ success: false, message: 'Server error. Please try again.' });
+        res.status(500).json({ message: 'Server error', error });
     }
 };
 
+// Get a single caregiver by ID
 const getCaregiverById = async (req, res) => {
     try {
-        const caregiver = await Caregiver.findById(req.params.id).populate('userId', 'firstName lastName email');
+        const caregiver = await Caregiver.findById(req.params.id);
         if (!caregiver) {
-            return res.status(404).json({ success: false, message: 'Caregiver not found.' });
+            return res.status(404).json({ message: 'Caregiver not found' });
         }
-        return res.status(200).json({ success: true, caregiver });
+        res.status(200).json(caregiver);
     } catch (error) {
-        console.error('Error fetching caregiver:', error);
-        return res.status(500).json({ success: false, message: 'Server error. Please try again.' });
+        res.status(500).json({ message: 'Server error', error });
     }
 };
+
+// Update caregiver by ID
+const updateCaregiver = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { firstName, lastName, email, contactNumber } = req.body;
+
+        const caregiver = await Caregiver.findById(id);
+        if (!caregiver) return res.status(404).json({ message: 'Caregiver not found' });
+
+        if (email && email !== caregiver.email) {
+            const emailExists = await Caregiver.findOne({ email });
+            if (emailExists) {
+                return res.status(400).json({ message: 'Email already exists' });
+            }
+        }
+
+        caregiver.firstName = firstName || caregiver.firstName;
+        caregiver.lastName = lastName || caregiver.lastName;
+        caregiver.email = email || caregiver.email;
+        caregiver.contactNumber = contactNumber || caregiver.contactNumber;
+        caregiver.updatedAt = Date.now();
+
+        await caregiver.save();
+        res.status(200).json({ message: 'Caregiver updated successfully', caregiver });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+};
+
+// Delete caregiver
+const deleteCaregiver = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const caregiver = await Caregiver.findByIdAndDelete(id);
+        if (!caregiver) {
+            return res.status(404).json({ message: 'Caregiver not found' });
+        }
+        res.status(200).json({ message: 'Caregiver deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+};
+
+// Get all caregivers
+const getAllCaregivers = async (req, res) => {
+    try {
+        const caregivers = await Caregiver.find();
+        res.status(200).json(caregivers);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+};
+
 
 module.exports = {
     registerCaregiver,
     getCaregiversByUser,
-    getCaregiverById
+    getCaregiverById,
+    updateCaregiver,
+    deleteCaregiver,
+    getAllCaregivers // 👈 add this export
 };
+

@@ -2,25 +2,13 @@
 document.addEventListener("DOMContentLoaded", async () => {
      
     try {
-        const sessionRes = await fetch('/session-user');
-        const sessionData = await sessionRes.json();
-        if (!sessionData.success) {
-            window.location.href = '/login';
-            return;
-        }
-
-        const userId = sessionData.userId;
-
-        const response = await fetch('/api/medications/upcoming/' + userId);
+        const response = await fetch('/api/medications/upcoming/68200f0c449e4521536a9f61');
         const data = await response.json();
 
         if (data.success) {
             const medications = data.medications;
             const wrapper = document.querySelector('#upcoming');
-
-            if(wrapper) {
-                wrapper.innerHTML = ""; 
-            }
+            wrapper.innerHTML = ""; 
 
             medications.forEach(med => {
                 med.occurrenceTimes.forEach(time => {
@@ -53,26 +41,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-
-        const sessionRes = await fetch('/session-user');
-        const sessionData = await sessionRes.json();
-        if (!sessionData.success) {
-            window.location.href = '/login';
-            return;
-        }
-
-        const userId = sessionData.userId;
-
-        const response = await fetch('/api/medications/logs/today/' + userId + '/taken');
+        const response = await fetch('/api/medications/logs/today/68200f0c449e4521536a9f61/taken');
         const dataRec = await response.json();
 
         if (dataRec.success) {
             const medications = dataRec.medications;
             const wrapper = document.querySelector('#recent');
-
-            if(wrapper) {
-                wrapper.innerHTML = ""; 
-            }
+            wrapper.innerHTML = ""; 
 
             medications.forEach(med => {
                     const card = document.createElement('div');
@@ -94,28 +69,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     } catch (error) {
         console.error("Error loading upcoming medications:", error);
-        // console.log(dataRec);
+        console.log(dataRec);
     }
 
     try {
-        const sessionRes = await fetch('/session-user');
-        const sessionData = await sessionRes.json();
-        if (!sessionData.success) {
-            window.location.href = '/login';
-            return;
-        }
-
-        const userId = sessionData.userId;
-
-        const response = await fetch('/api/medications/logs/today/' + userId + '/missed');
+        const response = await fetch('/api/medications/logs/today/68200f0c449e4521536a9f61/missed');
         const dataRec = await response.json();
 
         if (dataRec.success) {
             const medications = dataRec.medications;
             const wrapper = document.querySelector('#missed');
-            if(wrapper) {
-                wrapper.innerHTML = ""; 
-            }
+            wrapper.innerHTML = ""; 
 
             medications.forEach(med => {
                     const card = document.createElement('div');
@@ -138,7 +102,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     } catch (error) {
         console.error("Error loading missed medications:", error);
-        // console.log(dataRec);
+        console.log(dataRec);
     }
 
   
@@ -219,9 +183,6 @@ function validatePasswords() {
     }
 }
 
-if (passwordInput && confirmPasswordInput) {
-    passwordInput.addEventListener('input', validatePasswords);
-    confirmPasswordInput.addEventListener('input', validatePasswords);
-}
-
+passwordInput.addEventListener('input', validatePasswords);
+confirmPasswordInput.addEventListener('input', validatePasswords);
 

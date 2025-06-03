@@ -1,15 +1,20 @@
 const express = require('express');
-const { registerCaregiver, getCaregiversByUser, getCaregiverById } = require('../controllers/caregiverController');
+const {
+    registerCaregiver,
+    getCaregiversByUser,
+    getCaregiverById,
+    updateCaregiver,
+    deleteCaregiver,
+    getAllCaregivers  // <- import the new function
+} = require('../controllers/caregiverController');
+
 const router = express.Router();
 
-
-// Register caregiver
+router.get('/', getAllCaregivers);  // <-- add this line for all caregivers
 router.post('/register', registerCaregiver);
-
-// Get all caregivers by user ID
 router.get('/user/:userId', getCaregiversByUser);
-
-// Get caregiver by ID
 router.get('/:id', getCaregiverById);
+router.put('/:id', updateCaregiver);
+router.delete('/:id', deleteCaregiver);
 
 module.exports = router;

@@ -1,4 +1,3 @@
-
 # MedTrack - Never Miss a Dose Again
 
 ## Description
@@ -8,9 +7,7 @@ MedTrack is a web-based medication management system designed to help users take
 - **Backend:** Node.js, Express.js, MongoDB, Mongoose
 - **Frontend:** HTML, CSS, JavaScript, Materialize CSS
 - **Authentication:** bcrypt for password hashing
-- **Notifications:** Email notifications, in-app caregiver notifications
-- **Prototyping:** Figma (interactive wireframes for Caregivers and Medications UI)
-- **Version Control:** Git with feature branches aligned to Trello tasks
+- **Notifications:** Email notifications (planned)
 - **Testing:** Postman, Mocha (planned)
 
 ## Features
@@ -18,9 +15,7 @@ MedTrack is a web-based medication management system designed to help users take
 - Medication scheduling with flexible occurrence times
 - Real-time notifications to caregivers when a dose is missed
 - Dashboard to view upcoming medications and adherence history
-- Caregiver management: Add, view caregivers
 - Role-based access control for users and caregivers (planned)
-- Interactive UI for Caregivers and Medications sections
 
 ## Architecture
 The application follows the MVC (Model-View-Controller) architecture:
@@ -54,9 +49,6 @@ The application follows the MVC (Model-View-Controller) architecture:
 - **POST /login:** User login
 - **POST /medications:** Add a new medication
 - **GET /medications/upcoming/:userId:** Get upcoming medications
-- **POST /caregivers:** Add a new caregiver
-- **GET /caregivers/:userId:** Get caregivers by user
-- **GET /medications/:userId:** Get medications list by user
 
 ## Contributors
 - Binara Lokuliyanage (Scrum Master, Full-Stack Developer)

@@ -1,120 +1,160 @@
+document.addEventListener('DOMContentLoaded', () => {
+    fetchCaregivers(); // Fetch all caregivers on page load
 
-
-
-document.addEventListener("DOMContentLoaded", async () => {
-    try {
-
-        const sessionRes = await fetch('/session-user');
-        const sessionData = await sessionRes.json();
-        if (!sessionData.success) {
-            window.location.href = '/login';
-            return;
-        }
-
-        const userId = sessionData.userId;
-
-        const response = await fetch(`/api/caregivers/user/${userId}`);
-        const data = await response.json();
-
-        if (data.success && data.caregivers.length > 0) {
-            const caregiversList = document.querySelector('#caregivers-list');
-
-            let tableHtml = `
-                <table class="caregivers-table">
-                    <thead>
-                        <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Contact Number</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-
-            data.caregivers.forEach(caregiver => {
-                tableHtml += `
-                    <tr>
-                        <td>${caregiver.firstName}</td>
-                        <td>${caregiver.lastName}</td>
-                        <td>${caregiver.email}</td>
-                        <td>${caregiver.contactNumber}</td>
-                    </tr>
-                `;
-            });
-
-            tableHtml += `
-                    </tbody>
-                </table>
-            `;
-
-            caregiversList.innerHTML = tableHtml;
-
-            document.querySelectorAll('#caregivers-list tbody tr').forEach(row => {
-                row.addEventListener('click', () => {
-                    document.querySelectorAll('#caregivers-list tbody tr').forEach(r => r.classList.remove('selected'));
-                    row.classList.add('selected');
-                    const cells = row.querySelectorAll('td');
-                    if (cells.length >= 4) {
-                        document.getElementById('firstName').value = cells[0].textContent;
-                        document.getElementById('lastName').value = cells[1].textContent;
-                        document.getElementById('email').value = cells[2].textContent;
-                        document.getElementById('contactNumber').value = cells[3].textContent;
-                    }
-                });
-            });
-        } else {
-            document.querySelector('#caregivers-list').innerHTML = '<p>No caregivers found.</p>';
-        }
-    } catch (error) {
-        console.error('Error loading caregivers:', error);
-        document.querySelector('#caregivers-list').innerHTML = '<p>Error loading caregivers. Please try again later.</p>';
-    }
-
-    const form = document.getElementById('caregiverForm');
-
-    form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-
-        const formData = new FormData(form);
-
-        const sessionRes = await fetch('/session-user');
-        const sessionData = await sessionRes.json();
-        if (!sessionData.success) {
-            window.location.href = '/login';
-            return;
-        }
-
-        const userId = sessionData.userId;
-
-        const payload = {
-            userId: userId,
-            firstName: formData.get('firstName'),
-            lastName: formData.get('lastName'),
-            email: formData.get('email'),
-            contactNumber: formData.get('contactNumber')
-        };
-
-        try {
-            const response = await fetch('/api/caregivers/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                alert('Caregiver added!');
-                form.reset();
-                location.reload(); 
-            } else {
-                document.getElementById('error-message').textContent = result.message || 'Something went wrong.';
-            }
-        } catch (err) {
-            console.error('Error adding caregiver:', err);
-            document.getElementById('error-message').textContent = 'Server error. Please try again later.';
-        }
-    });
+    const caregiverForm = document.getElementById('caregiverForm');
+    caregiverForm.addEventListener('submit', handleFormSubmit);
 });
 
+// Fetch all caregivers
+async function fetchCaregivers() {
+    try {
+        const res = await fetch('/api/caregivers');
+        const caregivers = await res.json();
+
+        const container = document.getElementById('caregivers-list');
+        container.innerHTML = '';
+
+        if (!caregivers.length) {
+            container.innerHTML = '<p>No caregivers found.</p>';
+            return;
+        }
+
+        caregivers.forEach(caregiver => {
+            const card = document.createElement('div');
+            card.classList.add('medication-card');
+
+            card.innerHTML = `
+                <h5>${caregiver.firstName} ${caregiver.lastName}</h5>
+                <p><strong>Email:</strong> ${caregiver.email}</p>
+                <p><strong>Contact:</strong> ${caregiver.contactNumber}</p>
+                <div class="btn-wrapper">
+                    <button class="btn btn-edit" onclick="editCaregiver('${caregiver._id}')">Edit</button>
+                    <button class="btn btn-delete" onclick="deleteCaregiver('${caregiver._id}')">Delete</button>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+    } catch (err) {
+        console.error('Error fetching caregivers:', err);
+    }
+}
+
+// Optional: Fetch caregivers by specific user ID
+async function fetchCaregiversByUser(userId) {
+    try {
+        const res = await fetch(`/api/caregivers/user/${userId}`);
+        const caregivers = await res.json();
+
+        const container = document.getElementById('caregivers-list');
+        container.innerHTML = '';
+
+        if (!caregivers.length) {
+            container.innerHTML = '<p>No caregivers found for this user.</p>';
+            return;
+        }
+
+        caregivers.forEach(caregiver => {
+            const card = document.createElement('div');
+            card.classList.add('medication-card');
+
+            card.innerHTML = `
+                <h5>${caregiver.firstName} ${caregiver.lastName}</h5>
+                <p><strong>Email:</strong> ${caregiver.email}</p>
+                <p><strong>Contact:</strong> ${caregiver.contactNumber}</p>
+                <div class="btn-wrapper">
+                    <button class="btn btn-edit" onclick="editCaregiver('${caregiver._id}')">Edit</button>
+                    <button class="btn btn-delete" onclick="deleteCaregiver('${caregiver._id}')">Delete</button>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+    } catch (err) {
+        console.error('Error fetching caregivers by user:', err);
+    }
+}
+
+// Handle form submission for add/edit caregiver
+async function handleFormSubmit(event) {
+    event.preventDefault();
+
+    const caregiverId = document.getElementById('caregiverId').value;
+    const userId = document.getElementById('userId').value;
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const contactNumber = document.getElementById('contactNumber').value.trim();
+    const errorMessage = document.getElementById('error-message');
+
+    const payload = { userId, firstName, lastName, email, contactNumber };
+
+    try {
+        const res = await fetch(
+            caregiverId ? `/api/caregivers/${caregiverId}` : '/api/caregivers/register',
+            {
+                method: caregiverId ? 'PUT' : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }
+        );
+
+        const result = await res.json();
+
+        if (!res.ok) {
+            errorMessage.textContent = result.message || 'Something went wrong.';
+            return;
+        }
+
+        errorMessage.textContent = '';
+        document.getElementById('caregiverForm').reset();
+        document.getElementById('caregiverId').value = '';
+
+        // After adding or updating, refresh the list of caregivers
+        fetchCaregivers();
+
+    } catch (err) {
+        errorMessage.textContent = 'Failed to submit form.';
+    }
+}
+
+// Delete caregiver by ID
+async function deleteCaregiver(id) {
+    if (!confirm('Are you sure you want to delete this caregiver?')) return;
+
+    try {
+        const res = await fetch(`/api/caregivers/${id}`, { method: 'DELETE' });
+        const result = await res.json();
+
+        if (res.ok) {
+            fetchCaregivers();
+        } else {
+            alert(result.message);
+        }
+    } catch (err) {
+        alert('Error deleting caregiver.');
+    }
+}
+
+// Load caregiver data into form for editing
+async function editCaregiver(id) {
+    try {
+        const res = await fetch(`/api/caregivers/${id}`);
+        const caregiver = await res.json();
+
+        document.getElementById('caregiverId').value = caregiver._id;
+        document.getElementById('firstName').value = caregiver.firstName;
+        document.getElementById('lastName').value = caregiver.lastName;
+        document.getElementById('email').value = caregiver.email;
+        document.getElementById('contactNumber').value = caregiver.contactNumber;
+    } catch (err) {
+        alert('Failed to load caregiver data.');
+    }
+}
+
+// Clear form fields and error messages
+function clearForm() {
+    document.getElementById('caregiverForm').reset();
+    document.getElementById('caregiverId').value = '';
+    document.getElementById('error-message').textContent = '';
+}

@@ -1,8 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const session = require('express-session'); 
 
-// Register controller
+// Register Controller
 const registerUser = async (req, res) => {
     const { firstName, lastName, dob, gender, email, contactNumber, password, confirmPassword } = req.body;
 
@@ -20,17 +19,9 @@ const registerUser = async (req, res) => {
             return res.redirect('/registration?error=Email already registered');
         }
 
-        const newUser = new User({
-            firstName,
-            lastName,
-            dob,
-            gender,
-            email,
-            contactNumber,
-            password, 
-        });
-
+        const newUser = new User({ firstName, lastName, dob, gender, email, contactNumber, password });
         await newUser.save();
+
         return res.redirect('/login?success=registered');
     } catch (error) {
         console.error('Registration Error:', error);
@@ -38,38 +29,29 @@ const registerUser = async (req, res) => {
     }
 };
 
-// Login controller
+// Login Controller
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+    const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.redirect('/login?error=All fields are required');
-  }
-
-  try {
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.redirect('/login?error=Invalid email');
+    if (!email || !password) {
+        return res.redirect('/login?error=All fields are required');
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.redirect('/login?error=Invalid email or password');
+    try {
+        const user = await User.findOne({ email });
+        if (!user) return res.redirect('/login?error=Invalid email or password');
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.redirect('/login?error=Invalid email or password');
+
+          // ✅ Set session value
+        req.session.userId = user._id;
+
+        return res.redirect('/dashboard');
+    } catch (error) {
+        console.error('Login Error:', error);
+        return res.redirect('/login?error=Server error');
     }
-
-    req.session.userId = user._id;
-
-    return res.redirect('/dashboard');
-  } catch (error) {
-    console.error('Login Error:', error);
-    return res.redirect('/login?error=Server error');
-  }
 };
 
-  
-
-module.exports = {
-    registerUser,
-    loginUser,
-};
+module.exports = { registerUser, loginUser };

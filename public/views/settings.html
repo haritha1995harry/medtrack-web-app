@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedTrack | Edit Profile</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/app.css">
+</head>
+<body>
+
+<section class="module-body">
+    <div id="navbar"></div>
+
+    <div class="module-content">
+        <div class="module-title-wrapper">
+            <h1 class="h3">Edit Profile</h1>
+        </div>
+
+        <div class="module-content-wrapper-2-col">
+            <!-- Edit Profile Form -->
+            <div class="module-content-box">
+                <div class="title">
+                    <h4>Profile Details</h4>
+                </div>
+                <div class="medication-cards-wrapper">
+                    <div class="form-wrapper" style="margin-top: 0px;">
+                        <form id="editProfileForm">
+                            <input type="hidden" name="userId" id="editUserId" value="68200f0c449e4521536a9f61">
+
+                            <div class="input-field">
+                                <input name="firstName" placeholder="First Name" id="editFirstName" type="text" class="validate" required>
+                            </div>
+
+                            <div class="input-field">
+                                <input name="lastName" placeholder="Last Name" id="editLastName" type="text" class="validate" required>
+                            </div>
+
+                            <div class="input-field">
+                                <input name="email" placeholder="Email" id="editEmail" type="email" class="validate" required>
+                            </div>
+
+                            <div class="input-field">
+                                <input name="contactNumber" placeholder="Contact Number" id="editContactNumber" type="tel" class="validate" required>
+                            </div>
+
+                            <div class="input-field">
+                                <input name="dob" placeholder="Date of Birth" id="editDob" type="date" class="validate" required>
+                            </div>
+
+                            <div class="input-field">
+                                <select name="gender" id="editGender" class="validate" required>
+                                    <option value="" disabled selected>Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="btn-wrapper">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button type="reset" class="btn-reset" onclick="clearProfileForm()">Reset</button>
+                            </div>
+
+                            <div id="profile-error-message" class="error-text" style="color: red; margin-top: 10px;"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JS -->
+<script src="../js/nav-bar.js"></script>
+<script src="../js/edit-profile.js"></script>
+
+</body>
+</html>
